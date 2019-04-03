@@ -6,11 +6,6 @@ import re
 def serverInfo():
     pass
 
-
-
-
-
-
 class SSHConnect(object):
     def __init__(self,host,port,username,password=None,key=None):
         self.host = host
