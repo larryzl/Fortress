@@ -51,11 +51,13 @@ class SSHConnect(object):
         self.trans = paramiko.Transport((self.host,self.port))
         self.trans.start_client()
         if self.password is not None:
+            self.logger.debug("Useing Password To Connect %s" % self.host)
             try:
                 self.trans.auth_password(self.username,self.password)
             except Exception as e:
                 return [False,e]
         elif self.key is not None:
+            self.logger.debug("Useing Private Key To Connect %s" % self.host)
             try:
                 private_key = paramiko.RSAKey.from_private_key_file(self.key)
                 self.trans.auth_publickey(username=self.username,key=private_key)
