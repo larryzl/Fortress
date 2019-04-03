@@ -138,8 +138,8 @@ if __name__ == '__main__':
     host = '192.168.8.201'
     port = 22
     username = 'root'
-    passwrod = None
-    key = '/Users/lei/.ssh/id_rsa'
+    passwrod = '123456'
+    key = None
 
     s = SSHConnect(host,port,username,passwrod,key)
     s.run()
