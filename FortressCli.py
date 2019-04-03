@@ -18,19 +18,25 @@ class SSHConnect(object):
         self.key = key
         self.logger = logger
         try:
-            client_ip = os.environ['SSH_CLIENT']
+            ssh_env = os.environ
+            client_info = ssh_env['SSH_CLIENT'].split()
+            client_ip = client_info[0]
+            sport = client_info[1]
+            dport = client_info[2]
+            ssh_tty = ssh_env['SSH_TTY']
         except:
-            client_ip = "IP"
-        self.logger.extra={'username':getpass.getuser(),'ip':client_ip}
-        self.is_debug = True
+            client_ip = "Null"
+            sport = 'Null'
+            dport ='Null'
+            ssh_tty = 'Null'
 
+        self.logger.extra= {"client_ip": client_ip, "username":getpass.getuser() ,'sport':sport,'dport':dport,'ssh_tty':ssh_tty}
+        self.is_debug = True
 
     def _debug(self,msg):
         if self.is_debug:
             time_stf = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime())
             print("[%s] [debug] %s" % (time_stf,msg))
-
-
 
     def run(self):
         conn,res = self.__startSession()
@@ -121,7 +127,6 @@ class SSHConnect(object):
            termios.tcsetattr(sys.stdin, termios.TCSADRAIN, self.oldtty)
 
 
-
 if __name__ == '__main__':
     host = '192.168.8.201'
     port = 22
@@ -129,6 +134,9 @@ if __name__ == '__main__':
     passwrod = None
 
     logger = fortressLogger.flogger()
-    key = os.path.join(os.environ['HOME'],'./.ssh/id_rsa')
+    try:
+        key = os.path.join(os.environ['HOME'],'./.ssh/id_rsa')
+    except:
+        key = None
     s = SSHConnect(host,port,username,passwrod,key,logger)
     s.run()

@@ -12,8 +12,8 @@ class fortressLogger():
 
     # logger.extra = extra_dict
     rf_handler = logging.handlers.TimedRotatingFileHandler('logs/fortress_%s.log'%log_time_tag, when='midnight', interval=1, backupCount=7, atTime=datetime.time(0, 0, 0, 0))
-    rf_handler.setFormatter(logging.Formatter("{\"time\":\"%(asctime)s\",\"level\":\"%(levelname)s\",\"ip\":\"%(ip)s\",\"user\":\"%(username)s\" \"detail\":\"%(message)s\"}"))
-    extra_dict = {"ip": "IP", "username": "USERNAME"}
+    rf_handler.setFormatter(logging.Formatter("{\"time\":\"%(asctime)s\",\"level\":\"%(levelname)s\",\"client_ip\":\"%(ip)s\",\"sport\":\"%(sport)s\",\"dport\":\"%(dport)s\",\"ssh_tty\":\"%(ssh_tty)s\",\"user\":\"%(username)s\" \"detail\":\"%(message)s\"}"))
+    extra_dict = {"client_ip": "IP", "username": "USERNAME",'sport':'sport','dport':'dport','ssh_tty':'ssh_tty'}
 
     init_logger.addHandler(rf_handler)
     logger = logging.LoggerAdapter(init_logger,extra_dict)
