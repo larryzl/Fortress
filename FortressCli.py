@@ -1,6 +1,6 @@
 import paramiko,sys,os,socket,select,getpass,termios,tty
 from paramiko.py3compat import u
-from fLoging import logger
+# from fLoging import logger
 import re
 
 def serverInfo():
@@ -121,7 +121,7 @@ class SSHConnect(object):
                         command_list.append(x)
                     if x == '\r':
                         # print(''.join(command_list))
-                        logger.info(''.join(command_list))
+                        # logger.info(''.join(command_list))
                         command_list.clear()
 
                     self.chan.send(x)
