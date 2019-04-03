@@ -17,39 +17,19 @@ class SSHConnect(object):
         self.password = password
         self.key = key
         self.logger = logger
-        self.logger.extra['username'] = getpass.getuser()
+        try:
+            client_ip = os.environ['SSH_CLIENT']
+        except:
+            client_ip = "IP"
+        self.logger.extra={'username':getpass.getuser(),'ip':client_ip}
         self.is_debug = True
-        self.currentSessionInfo()
 
-    def currentSessionInfo(self):
-        self.__getOSType()
-        ip = ''
-        if self.os == 'centos':
-            with open('/var/log/secure') as f:
-                session_info = f.readlines()[-2]
-            comp = re.compile(r'^.* from (?P<ip>) port.*$')
-            try:
-                ip = comp.match(session_info).groupdict()['ip']
-            except:
-                ip = ''
-        if ip == '':
-            ip = 'Null'
-        self.logger.extra['IP'] = ip
 
     def _debug(self,msg):
         if self.is_debug:
             time_stf = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime())
             print("[%s] [debug] %s" % (time_stf,msg))
 
-    def __getOSType(self):
-        import platform
-        os_info = platform.platform(True)
-        if 'centos' in os_info:
-            self.os = 'centos'
-        elif 'Ubuntu' in os_info:
-            self.os = 'ubuntu'
-        elif 'Darwin' in os_info:
-            self.os = 'mac'
 
 
     def run(self):
@@ -144,9 +124,9 @@ if __name__ == '__main__':
     host = '192.168.8.201'
     port = 22
     username = 'root'
-    passwrod = '123456'
-    key = None
-    logger = fortressLogger.flogger()
+    passwrod = None
 
+    logger = fortressLogger.flogger()
+    key = os.path.join(os.environ['HOME'],'./.ssh/id_rsa')
     s = SSHConnect(host,port,username,passwrod,key,logger)
     s.run()
