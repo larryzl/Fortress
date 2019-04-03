@@ -1,4 +1,5 @@
 import paramiko,sys,os,socket,select,getpass,termios,tty
+import time
 from paramiko.py3compat import u
 # from fLoging import logger
 import re
@@ -14,6 +15,7 @@ class SSHConnect(object):
         self.password = password
         self.key = key
         self.user = getpass.getuser()
+        self.is_debug = True
 
 
     def currentSessionInfo(self):
@@ -27,8 +29,10 @@ class SSHConnect(object):
             except:
                 ip = ''
 
-
-
+    def _debug(self,msg):
+        if self.is_debug:
+            time_stf = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime())
+            print("[%s] [debug] %s" % (time_stf,msg))
 
     def __getOSType(self):
         import platform
@@ -44,17 +48,20 @@ class SSHConnect(object):
     def run(self):
         conn,res = self.__startSession()
         if conn is not True:
+            self._debug(res)
             # logger.error(res)
             sys.exit(1)
         else:
+            self._debug(res)
             pass
+
             # logger.info(res)
 
         self.__execCommand()
         self.__transClose()
 
     def __startSession(self):
-
+        self._debug("start connect %s" % self.host)
         self.trans = paramiko.Transport((self.host,self.port))
         self.trans.start_client()
         if self.password is not None:
@@ -69,12 +76,12 @@ class SSHConnect(object):
             except Exception as e:
                 return [False,e]
         else:
-            return [False,"密码或秘钥为空"]
+            return [False,"Password or Private Key Is Null"]
         self.chan = self.trans.open_session()
         self.chan.get_pty()
         self.chan.invoke_shell()
         self.oldtty = termios.tcgetattr(sys.stdin)
-        return [True,'连接成功']
+        return [True,'Connect Success']
 
 
     def __transClose(self):
@@ -94,6 +101,7 @@ class SSHConnect(object):
                         x = u(self.chan.recv(1024))
 
                         if len(x) == 0:
+                            self._debug('End of Connectioon,Exit Connection')
                             # logger.info('*** End of Connection, Exit Connection***')
                             break
                         if tab_flag:
@@ -117,6 +125,7 @@ class SSHConnect(object):
                     if x == '\r':
                         # print(''.join(command_list))
                         # logger.info(''.join(command_list))
+                        self._debug(''.join(command_list))
                         command_list.clear()
 
                     self.chan.send(x)
