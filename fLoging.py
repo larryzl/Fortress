@@ -1,18 +1,36 @@
 import logging
-import logging.config
-import yaml
+import logging.handlers
+import datetime
 
 
-with open('./logging.yaml', 'r') as f_conf:
-    dict_conf = yaml.load(f_conf)
-logging.config.dictConfig(dict_conf)
+class fortressLogger():
+    init_logger = logging.getLogger('fortress')
+    init_logger.setLevel(logging.DEBUG)
+
+    log_time_tag = datetime.datetime.strftime(datetime.date.today(),'%Y%m%d')
 
 
-logger = logging.getLogger('filelog')
+    # logger.extra = extra_dict
+    rf_handler = logging.handlers.TimedRotatingFileHandler('logs/fortress_%s.log'%log_time_tag, when='midnight', interval=1, backupCount=7, atTime=datetime.time(0, 0, 0, 0))
+    rf_handler.setFormatter(logging.Formatter("{\"time\":\"%(asctime)s\",\"level\":\"%(levelname)s\",\"ip\":\"%(ip)s\",\"user\":\"%(username)s\" \"detail\":\"%(message)s\"}"))
+    extra_dict = {"ip": "IP", "username": "USERNAME"}
+
+    init_logger.addHandler(rf_handler)
+    logger = logging.LoggerAdapter(init_logger,extra_dict)
+
+    @classmethod
+    def flogger(cls):
+        return cls.logger
+
 
 if __name__ == '__main__':
-    logger.debug('debug message')
-    logger.info('info message')
-    logger.warn('warn message')
-    logger.error('error message')
-    logger.critical('critical message')
+    # logger.debug('debug message')
+    # logger.info('info message')
+    # logger.warning('warning message')
+    # logger.extra = {"ip": "113.208.78.29", "username": "Petter"}
+    # logger.error('error message')
+    # logger.critical('critical message')
+    l = fortressLogger.flogger()
+
+    l.extra = {"ip": "113.208.78.29", "username": "Petter"}
+    l.error('error')

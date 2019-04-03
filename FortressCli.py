@@ -1,33 +1,40 @@
 import paramiko,sys,os,socket,select,getpass,termios,tty
 import time
 from paramiko.py3compat import u
-# from fLoging import logger
+from fLoging import fortressLogger
 import re
+
+
 
 def serverInfo():
     pass
 
 class SSHConnect(object):
-    def __init__(self,host,port,username,password=None,key=None):
+    def __init__(self,host,port,username,password=None,key=None,logger=None):
         self.host = host
         self.port = port
         self.username = username
         self.password = password
         self.key = key
-        self.user = getpass.getuser()
+        self.logger = logger
+        self.logger.extra['username'] = getpass.getuser()
         self.is_debug = True
-
+        self.currentSessionInfo()
 
     def currentSessionInfo(self):
         self.__getOSType()
+        ip = ''
         if self.os == 'centos':
             with open('/var/log/secure') as f:
                 session_info = f.readlines()[-2]
             comp = re.compile(r'^.* from (?P<ip>) port.*$')
             try:
-                ip = comp.match(session_info).groupdict()[ip]
+                ip = comp.match(session_info).groupdict()['ip']
             except:
                 ip = ''
+        if ip == '':
+            ip = 'Null'
+        self.logger.extra['IP'] = ip
 
     def _debug(self,msg):
         if self.is_debug:
@@ -49,13 +56,12 @@ class SSHConnect(object):
         conn,res = self.__startSession()
         if conn is not True:
             self._debug(res)
-            # logger.error(res)
+            self.logger.error(res)
             sys.exit(1)
         else:
             self._debug(res)
+            self.logger.info(res)
             pass
-
-            # logger.info(res)
 
         self.__execCommand()
         self.__transClose()
@@ -102,7 +108,7 @@ class SSHConnect(object):
 
                         if len(x) == 0:
                             self._debug('End of Connectioon,Exit Connection')
-                            # logger.info('*** End of Connection, Exit Connection***')
+                            self.logger.info('End of Connection, Exit Connection')
                             break
                         if tab_flag:
                             if x.startswith('\r\n'):
@@ -124,7 +130,7 @@ class SSHConnect(object):
                         command_list.append(x)
                     if x == '\r':
                         # print(''.join(command_list))
-                        # logger.info(''.join(command_list))
+                        self.logger.info(''.join(command_list).rstrip('\r\n'))
                         self._debug(''.join(command_list))
                         command_list.clear()
 
@@ -140,6 +146,7 @@ if __name__ == '__main__':
     username = 'root'
     passwrod = '123456'
     key = None
+    logger = fortressLogger.flogger()
 
-    s = SSHConnect(host,port,username,passwrod,key)
+    s = SSHConnect(host,port,username,passwrod,key,logger)
     s.run()

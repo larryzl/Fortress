@@ -25,6 +25,7 @@ wheels/
 *.egg
 MANIFEST
 
+*.log
 .idea/
 logs/
 test/
