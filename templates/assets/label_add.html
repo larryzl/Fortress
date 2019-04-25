@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% load staticfiles %}
+
+{% block csscontent %}
+{% include '_header_form.html' %}
+{% endblock csscontent %}
+
+{% block content %}
+
+<div class="row">
+
+<div class="col-md-10">
+    <!-- Horizontal Form -->
+    <div class="card card-info">
+      <div class="card-header">
+        <h3 class="card-title">填写标签信息</h3>
+      </div>
+      <!-- /.card-header -->
+      <!-- form start -->
+      <form class="form-horizontal" method="POST" >
+        {% csrf_token %}
+        {{ form | bootstrap_horizontal }}
+        <!-- /.card-body -->
+        <div class="card-footer">
+          <button type="submit" class="btn btn-info">提交</button>
+          <button type="reset" class="btn btn-default float-right">重置</button>
+        </div>
+        <!-- /.card-footer -->
+      </form>
+    </div>
+    </div>
+
+
+</div>
+
+
+{% endblock %}
+
+{% block jscontent %}
+{% include '_foot_form.html' %}
+{% endblock %}

@@ -1,0 +1,31 @@
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+{#            <div class="col-sm-6">#}
+{#                <h1 class="m-0 text-dark">{{ title.0 }}</h1>#}
+{#            </div><!-- /.col -->#}
+            <div class="col-md-6 ">
+                <span class="layui-breadcrumb">
+                <a href="/">首页</a>
+                    <a href="#" onclick="go2title()"> {{ title.0 }}</a>
+                {% if title.1 %}
+                    <a><cite>{{ title.1 }}</cite></a>
+                {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function go2title(){
+            var full_path = window.location.href;
+            window.location.href = full_path.split('/').slice(0,5).join('/');
+        }
+
+
+    </script>
+
+
+</div>
+

@@ -1,0 +1,204 @@
+{% load staticfiles %}
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="min-height: 676px;">
+    <!-- Brand Logo -->
+    <a href="/" class="brand-link">
+{#        <img src="" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">#}
+        <span class="brand-text font-weight-light">CMDB</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">{{ request.user.email }}</a>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                     with font-awesome or any other icon font library -->
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fa fa-dashboard"></i>
+                        <p>
+                            Dashboard
+                            <i class="right fa fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link" id="index">
+                                <i class="fa fa-circle-o nav-icon"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link" id="users">
+                        <i class="nav-icon fa fa-user-circle-o"></i>
+                        <p>
+                            用户管理
+                            <i class="right fa fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url 'department_list' %}" class="nav-link" id="department">
+                                <i class="fa fa-circle-o nav-icon"></i>
+                                <p>部门管理</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'user_list' %}" class="nav-link" id="user">
+                                <i class="fa fa-user-o nav-icon"></i>
+                                <p>用户管理</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link" id="assets">
+                        <i class="nav-icon fa fa-tree"></i>
+                        <p>
+                            资产管理
+                            <i class="fa fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" >
+                        <li class="nav-item">
+                            <a href="{% url 'idc_list' %}" class="nav-link" id="idc">
+                                <i class="fa fa-circle-o nav-icon"></i>
+                                <p>机房管理</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'server_list' %}" class="nav-link" id="server">
+                                <i class="fa fa-circle-o nav-icon"></i>
+                                <p>主机管理</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'server_list' %}" class="nav-link" id="server">
+                                <i class="fa fa-circle-o nav-icon"></i>
+                                <p>系统用户</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'project_list' %}" class="nav-link" id="project">
+                                <i class="fa fa-circle-o nav-icon"></i>
+                                <p>业务组管理</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'label_list' %}" class="nav-link" id="label">
+                                <i class="fa fa-circle-o nav-icon"></i>
+                                <p>标签管理</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="{% url 'soft_list' %}" class="nav-link" id="soft">
+                        <i class="nav-icon fa fa-cog"></i>
+                        <p>
+                            应用管理
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fa fa-edit"></i>
+                        <p>
+                            权限管理
+                            <i class="fa fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="pages/forms/general.html" class="nav-link">
+                                <i class="fa fa-circle-o nav-icon"></i>
+                                <p>平台权限管理</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="pages/forms/advanced.html" class="nav-link">
+                                <i class="fa fa-circle-o nav-icon"></i>
+                                <p>主机权限管理</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fa fa-table"></i>
+                        <p>
+                            任务管理
+                            <i class="fa fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="pages/tables/simple.html" class="nav-link">
+                                <i class="fa fa-circle-o nav-icon"></i>
+                                <p>主机操作</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="pages/tables/data.html" class="nav-link">
+                                <i class="fa fa-circle-o nav-icon"></i>
+                                <p>定时任务</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="pages/tables/data.html" class="nav-link">
+                                <i class="fa fa-circle-o nav-icon"></i>
+                                <p>操作日志</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fa fa-table"></i>
+                        <p>
+                            文件管理
+                            <i class="fa fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="pages/tables/simple.html" class="nav-link">
+                                <i class="fa fa-circle-o nav-icon"></i>
+                                <p>文件列表</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="pages/tables/data.html" class="nav-link">
+                                <i class="fa fa-circle-o nav-icon"></i>
+                                <p>脚本列表</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="pages/tables/data.html" class="nav-link">
+                                <i class="fa fa-circle-o nav-icon"></i>
+                                <p>Playbook列表</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+</aside>

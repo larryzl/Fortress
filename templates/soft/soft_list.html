@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block csscontent %}
+  <!-- Ionicons -->
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static 'datatables/dataTables.bootstrap4.min.css' %}">
+  <!-- Theme style -->
+{% endblock %}
+{% block content %}
+
+    <div class="card">
+{#        <div class="card-header">#}
+{#            <h3 class="card-title">{{ title.0 }}</h3>#}
+{#        </div>#}
+        <!-- /.card-header -->
+        <div class="card-body">
+            <table id="assets_list_table" class="table table-hover">
+
+                    <thead>
+                    <tr>
+                        <th>软件名称</th>
+                        <th>说明</th>
+                        <th>部署主机数量</th>
+                        <th>版本</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for soft in soft_list %}
+                        <tr>
+                            <td><img src="/static/img/{{ soft.soft_icon }}" width="26" height="26" alt=""> {{ soft.name }}</td>
+                            <td>{{ soft.describe}}</td>
+                            <td></td>
+{#                            <td><a href="{% url 'server_list' %}?idc={{ idc.uuid }}">{{ idc.server_set.all.count | default:"0" }}</a></td>#}
+                            <td>{{ soft.version }}</td>
+                            <td>{{ soft.create_time }}</td>
+                            <td>
+                                <a class="text-success" href="{% url 'soft_edit' soft.uuid %}" >编辑</a> |
+                                <a class="text-success" id="softDel" data-uid="{{ soft.uuid }}" >删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tfoot>
+            </table>
+        </div>
+        <div class="card-footer">
+            <button type="button" onclick="addSoft()" class="btn-sm btn-success" id="add-label">添加</button>
+            <button type="button" class="btn-sm btn-danger"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">删除</font></font></button>
+        </div>
+        <!-- /.card-body -->
+    </div>
+
+
+
+{% endblock %}
+{% block jscontent %}
+    {% include '_foot_table.html' %}
+    <script>
+        function addSoft(){
+            window.location.href = "{% url 'soft_add' %}";
+        }
+
+        function initTable(){
+            var options = {
+                ele : $("#assets_list_table"),
+                pageLength: 10,
+                columns : [
+                    {data: 'soft_name'},
+                    {data: 'soft_desc'},
+                    {data: 'soft_server_total'},
+                    {data: 'soft_version'},
+                    {data: 'soft_create_time'},
+                    {data:'',orderable: false}
+                ]
+            };
+            return cmdb.initDataTable(options);
+        }
+
+        $(document).ready( function () {
+                    //$('#assets_list_table').DataTable();
+                    initTable();
+                })
+                .on('click','#softDel',function(){
+                    console.log('this step1');
+                    var $this = $(this);
+                    var $data_table = $("#assets_list_tale").DataTable();
+                    var name = $(this).closest("tr").children().first().html();
+                    var uid = $this.data('uid');
+                    var the_url = "{% url 'soft_del' %}?uid=" + uid;
+                    objectDelete($this, name, the_url);
+                    setTimeout( function () {
+                        $data_table.ajax.reload();
+                        console.log('step 4')
+                    }, 1000);
+
+
+                })
+        ;
+    </script>
+{% endblock jscontent %}

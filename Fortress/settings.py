@@ -32,6 +32,16 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'users',
+    'assets',
+    'ansible_api',
+    'bootstrap3',
+    'files',
+    'authorize',
+    'accounts',
+    'ajax',
+    'soft',
+    'mytest',
+    'bootstrapform',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -105,8 +115,11 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
-
+SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
 LANGUAGE_CODE = 'zh-Hans'
+LOGIN_URL="/users/login/"
+
+# TIME_ZONE = 'UTC'
 
 TIME_ZONE = 'Asia/Shanghai'
 
@@ -114,10 +127,16 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
+MEDIA_ROOT=os.path.join(BASE_DIR,'static/img').replace('\\', '/')
+
+MEDIA_URL = '/static/img/'

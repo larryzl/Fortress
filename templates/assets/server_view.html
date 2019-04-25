@@ -1,0 +1,619 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% load staticfiles %}
+
+{% block csscontent %}
+    {% include '_header_form.html' %}
+    <link rel="stylesheet" href="{% static 'css/fortress.css' %}">
+    {% include '_chart_js.html' %}
+
+{% endblock csscontent %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <!-- jQuery Knob -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fa fa-pie-chart"></i><font style="vertical-align: inherit;"><font
+                            style="vertical-align: inherit;">
+
+                        实时状态
+                    </font></font></h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-widget="remove"><i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 col-md-3 text-center">
+                            <div id="sysload" class="cicle"></div>
+                            <div class="knob-label"><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">负载</font></font></div>
+                        </div>
+                        <div class="col-6 col-md-3 text-center">
+                            <div id="syscup" class="cicle"></div>
+                            <div class="knob-label"><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">CPU</font></font></div>
+
+                        </div>
+                        <div class="col-6 col-md-3 text-center">
+                            <div id="sysmem" class="cicle"></div>
+                            <div class="knob-label"><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">内存</font></font></div>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-6 col-md-3 text-center">
+                            <div id="sysdisk" class="cicle"></div>
+                            <div class="knob-label"><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">/ 目录</font></font></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-info">
+{#                    <i class="fa fa-envelope-o"></i>#}
+                    <i class="fa fa-dedent" aria-hidden="true"></i>
+                </span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text"><font style="vertical-align: inherit;"><font
+                            style="vertical-align: inherit;">命令记录</font></font></span>
+                    <span class="info-box-number"><font style="vertical-align: inherit;"><font
+                            style="vertical-align: inherit;">0</font></font></span>
+                </div>
+
+                <div class="info-box-more">
+                    <button class="btn-sm btn-info">查看</button>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-success"><i class="fa fa-flag-o"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text"><font style="vertical-align: inherit;"><font
+                            style="vertical-align: inherit;">定时任务</font></font></span>
+                    <span class="info-box-number"><font style="vertical-align: inherit;"><font
+                            style="vertical-align: inherit;">0</font></font></span>
+
+                </div>
+                <div class="info-box-more">
+                    <button class="btn-sm btn-info">查看</button>
+                    <button class="btn-sm btn-success">修改</button>
+                </div>
+
+
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-warning"><i class="fa fa-files-o"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text"><font style="vertical-align: inherit;"><font
+                            style="vertical-align: inherit;">文件同步记录</font></font></span>
+                    <span class="info-box-number"><font style="vertical-align: inherit;"><font
+                            style="vertical-align: inherit;">0</font></font></span>
+                </div>
+                <div class="info-box-more">
+                    <button class="btn-sm btn-info">查看</button>
+                    <button class="btn-sm btn-success">同步</button>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-danger"><i class="fa fa-list-alt"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text"><font style="vertical-align: inherit;"><font
+                            style="vertical-align: inherit;">防火墙规则</font></font></span>
+                    <span class="info-box-number"><font style="vertical-align: inherit;"><font
+                            style="vertical-align: inherit;">0</font></font></span>
+                </div>
+                <div class="info-box-more">
+                    <button class="btn-sm btn-info">查看</button>
+                    <button class="btn-sm btn-success">修改</button>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+
+                    <h3 class="card-title">
+                        <i class="fa fa-play-circle"></i>
+                        已安装应用
+                    </h3>
+                    <div class="card-tools">
+                        <a class="btn btn-tool btn-sm" href="{% url 'server_soft' server_info.uuid %}"><i class="fa fa-cog"></i> 编辑</a>
+                    </div>
+
+
+                </div>
+
+                <div class="card-body">
+                <div class="row">
+
+
+                    {% for soft in soft_list.all %}
+                    <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                        <div class="icon">
+                            <img src="/static/img/{{ soft.soft_icon }}" width="80" height="auto" alt="">
+                        </div>
+                        <div class="inner">
+                            <h3>{{ soft.name }}</h3>
+
+                            <p>{{ soft.version }}</p>
+                        </div>
+
+                        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+
+
+                    {% endfor %}
+                </div>
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-3">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fa fa-list"></i>
+                        <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">基本信息</font></font>
+                    </h3>
+                    <div class="card-tools">
+{#                        <button type="button" class="btn btn-tool" aria-hidden="true" id="assets_edit"><i class="fa fa-pencil-square-o fa-fw" aria-hidden="true"></i> 编辑</button>#}
+                        <a class="btn btn-tool btn-sm" href="{% url 'server_edit' server_info.uuid %}"><i class="fa fa-cog"></i> 编辑</a>
+                        <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        <button type="button" class="btn btn-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0">
+                    <table class="table table-condensed">
+                        <tbody>
+
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">名称</font></font>
+                            </td>
+                            <td>{{ server_info.name }}</td>
+                        </tr>
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">操作系统</font></font></td>
+                            <td>
+                                {{ server_info.system }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">所属项目</font></font></td>
+                            <td>
+                                {% for p in server_info.project.all %}
+                                    <span class="badge bg-primary"><font style="vertical-align: inherit;"><font
+                                            style="vertical-align: inherit;"> {{ p.name }}</font></font></span>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">标签</font></font>
+                            </td>
+
+                            <td>
+                                {% for l in server_info.label.all %}
+                                    <span class="badge bg-info"><font style="vertical-align: inherit;"><font
+                                            style="vertical-align: inherit;">{{ l.name }}</font></font></span>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">状态</font></font>
+                            </td>
+                            <td>
+                                {% if server_info.is_active %}
+                                    <span class="badge bg-success"><font style="vertical-align: inherit;"><font
+                                            style="vertical-align: inherit;">激活</font></font></span>
+                                {% else %}
+                                    <span class="badge bg-danger"><font style="vertical-align: inherit;"><font
+                                            style="vertical-align: inherit;">未激活</font></font></span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">SSH端口</font></font></td>
+                            <td>
+                                {{ server_info.ssh_port }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">HOSTNAME</font></font></td>
+                            <td>
+                                {{ server_info.hostname }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">Ansible组</font></font></td>
+                            <td>
+                                {% for a in server_info.ansible_group.all %}
+                                    {{ a }}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">更新时间</font></font></td>
+                            <td>
+                                {{ server_info.mod_time }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">创建时间</font></font></td>
+                            <td>
+                                {{ server_info.create_time }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">备注</font></font></td>
+                            <td>
+                                {{ server_info.comment }}
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+        {#        <div class="col-3">#}
+        {#            <div class="card">#}
+        {#                <div class="card-header">#}
+        {#                    <h3 class="card-title">#}
+        {#                        <i class="fa fa-align-justify"></i>#}
+        {#                        业务信息</h3>#}
+        {#                    <div class="card-tools">#}
+        {#                        <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i>#}
+        {#                        </button>#}
+        {#                        <button type="button" class="btn btn-tool" data-widget="remove"><i class="fa fa-times"></i>#}
+        {#                        </button>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#                <!-- /.card-header -->#}
+        {#                <div class="card-body p-0">#}
+        {#                    <table class="table table-condensed">#}
+        {#                        <tbody>#}
+        {##}
+        {#                        <tr>#}
+        {#                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">所属项目</font></font></td>#}
+        {#                            <td>#}
+        {#                                {% for p in server_info.project.all %}#}
+        {#                                    <span class="badge bg-primary"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {{ p.name }}</font></font></span>#}
+        {#                                {% endfor %}#}
+        {#                            </td>#}
+        {#                        </tr>#}
+        {#                        <tr>#}
+        {#                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">标签</font></font></td>#}
+        {##}
+        {#                            <td>#}
+        {#                                {% for l in server_info.label.all %}#}
+        {#                                    <span class="badge bg-info"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ l.name }}</font></font></span>#}
+        {#                                {% endfor %}#}
+        {#                            </td>#}
+        {#                        </tr>#}
+        {##}
+        {##}
+        {##}
+        {##}
+        {#                        </tbody>#}
+        {#                    </table>#}
+        {#                </div>#}
+        {#                <!-- /.card-body -->#}
+        {#            </div>#}
+        {#        </div>#}
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fa fa-cog"></i>
+                        硬件信息
+                    </h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-widget="remove"><i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0">
+                    <table class="table table-condensed">
+                        <tbody>
+
+
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">IP地址</font></font></td>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">{{ server_info.ip }}</font></font></td>
+                        </tr>
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">其他IP地址</font></font></td>
+                            <td>
+                                {{ server_info.ip2 }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">所属IDC</font></font></td>
+                            <td>
+                                {{ server_info.idc_name }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">机架位置</font></font></td>
+                            <td>
+                                {{ server_info.location }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">硬件厂商</font></font></td>
+                            <td>
+                                {{ server_info.manufacturer }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">产品型号</font></font></td>
+                            <td>
+                                {{ server_info.productname }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">序列号</font></font>
+                            </td>
+                            <td>
+                                {{ server_info.service_tag }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">CPU型号</font></font></td>
+                            <td>
+                                {{ server_info.cpu_model }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">CPU线程数</font></font></td>
+                            <td>
+                                {{ server_info.cpu_nums }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">CPU物理核数</font></font></td>
+                            <td>
+                                {{ server_info.cpu_groups }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">内存大小</font></font></td>
+                            <td>
+                                {{ server_info.mem }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">硬盘信息</font></font></td>
+                            <td>
+                                {{ server_info.disk }}
+                            </td>
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+        <div class="col-5">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fa fa-history" aria-hidden="true"></i>
+                        <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">修改记录</font></font>
+                    </h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-widget="remove"><i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane active show" id="timeline">
+                                <!-- The timeline -->
+                                <ul class="timeline timeline-inverse">
+{#                                {% for i in server_logs %}#}
+{#                                {{ i.create_time }}#}
+{#                                {% endfor %}#}
+                                    {% for date,info in logs_list.items %}
+                                        <li class="time-label">
+                                            <span class="bg-success">
+                                              {{ date }}
+                                            </span>
+                                        </li>
+                                        {% for logs in info %}
+                                            <li>
+                                                <i class="fa fa-user bg-info"></i>
+
+                                                <div class="timeline-item">
+                                                    <span class="time"><i class="fa fa-clock-o"></i> {{ logs.3 }}</span>
+
+                                                    <h3 class="timeline-header"><a href="#">{{ logs.0.email }}</a> {{ logs.1 }}</h3>
+
+                                                    <div class="timeline-body">
+                                                        {{ logs.2 }}
+
+                                                    </div>
+                                                    <div class="timeline-footer">
+                                                        {#                            <a href="#" class="btn btn-primary btn-sm">Read more</a>#}
+                                                        {#                            <a href="#" class="btn btn-danger btn-sm">Delete</a>#}
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                    <li>
+                                        <i class="fa fa-clock-o bg-gray"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- /.tab-pane -->
+
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+
+        var cpuChart = echarts.init(document.getElementById("syscup"));
+        var memChart = echarts.init(document.getElementById("sysmem"));
+        /*
+         * 仪表盘所需数据
+         */
+        var data = {
+            value: 0.5,
+            total: 125000
+        };
+        //////////////////////////////////////////////////
+
+        option = {
+            backgroundColor: '#fff',
+            series: [{
+                name: "仪表盘",
+                type: "gauge",
+                splitNumber: 10,
+                axisLine: {
+                    lineStyle: {
+                        color: [
+                            [data.value, '#5DD1FA'], //外环基础色
+                            [1, "#f7f9fc"]
+                        ],
+                        width: 10
+                    }
+                },
+                axisLabel: {
+                    show: false,
+                },
+                splitLine: {
+                    show: false,
+                },
+                detail: {
+                    formatter: function (value) {
+                        return `${value * 100}%`
+                    },
+                    offsetCenter: [0, 0],
+                    textStyle: {
+                        fontSize: '32',
+                        fontWeight: '600',
+                        color: '#c9c9c9'
+                    }
+                },
+                title: {
+                    default: true,
+                    offsetCenter: [0, "100%"],
+                },
+                pointer: {
+                    show: false,
+                    length: '75%',
+                    width: 20, //指针粗细
+                },
+                data: [{
+                    "value": data.value,
+                }]
+            }
+            ]
+        }
+        cpuChart.setOption(option, true);
+        memChart.setOption(option, true);
+
+    </script>
+    </div>
+
+
+
+
+
+
+{% endblock %}
+
+{% block jscontent %}
+
+    {% include '_foot_form.html' %}
+
+{% endblock %}

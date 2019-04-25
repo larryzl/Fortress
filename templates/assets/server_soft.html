@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block csscontent %}
+  <!-- Ionicons -->
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static 'datatables/dataTables.bootstrap4.min.css' %}">
+  <!-- Theme style -->
+{% endblock %}
+{% block content %}
+
+    <div class="card">
+{#        <div class="card-header">#}
+{#            <h3 class="card-title">{{ title.0 }}</h3>#}
+{#        </div>#}
+        <!-- /.card-header -->
+        <div class="card-body">
+            <table id="assets_list_table" class="table table-hover">
+
+                    <thead>
+                    <tr>
+                        <th>软件名称</th>
+                        <th>版本</th>
+                        <th>说明</th>
+                        <th>创建时间</th>
+                        <th>创建用户</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for soft in all_softs %}
+
+                        <tr>
+                            <td><img src="/static/img/{{ soft.soft_icon }}" width="26" height="26" alt=""> <label>{{ soft.name }}</label></td>
+                            <td>{{ soft.describe}}</td>
+{#                            <td><a href="{% url 'server_list' %}?idc={{ idc.uuid }}">{{ idc.server_set.all.count | default:"0" }}</a></td>#}
+                            <td>{{ soft.version }}</td>
+                            <td>{{ soft.create_time }}</td>
+                            <td>{{ soft.create_by.email }}</td>
+                            <td>
+                                {% if soft in is_install %}
+                                    <a class="text-success" id="soft-edit" data-uid="{{ soft.uuid }}">设置</a> |
+                                    <a class="text-success" id="soft-uninstall" data-uid="{{ soft.uuid }}">卸载</a>
+                                {% else %}
+                                    <a class="text-success" id="soft-install" data-uid="{{ soft.uuid }}">安装</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tfoot>
+            </table>
+        </div>
+        <div class="card-footer">
+            <a  href="{% url 'server_view' uid %}" class="btn-sm btn-info" id="add-label">返回</a>
+        </div>
+        <!-- /.card-body -->
+    </div>
+
+
+
+{% endblock %}
+{% block jscontent %}
+    {% include '_foot_table.html' %}
+    <script>
+        layui.use('layer', function(){ //独立版的layer无需执行这一句
+            var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+        });
+
+        function postData(options){
+            var
+                    //ele = options.ele,
+                    data = options.data,
+                    post_url = "{% url 'server_soft' uid %}"
+                    ;
+            $.ajax({
+                type:'POST',
+                url:post_url,
+                data:data,
+                dataType:'json',
+                success:function(data){
+                    console.log(data.status)
+
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {//请求的失败的返回的方法
+				    alert("删除失败，请稍后再次尝试删除！");
+			    }
+            })
+
+
+        }
+
+
+        function initTable(){
+            var options = {
+                ele : $("#assets_list_table"),
+                pageLength: 10,
+                columns : [
+                    {data: 'soft_name'},
+                    {data: 'soft_desc'},
+                    {data: 'soft_server_total'},
+                    {data: 'soft_version'},
+                    {data: 'soft_create_time'},
+                    {data:'',orderable: false}
+                ]
+            };
+            return cmdb.initDataTable(options);
+        }
+
+        $(document).ready( function () {
+                    //$('#assets_list_table').DataTable();
+                    initTable();
+                })
+                .on('click','#soft-install',function(){
+                    var options = {};
+                    var $this = $(this);
+                    options.url = "{% url 'server_soft' uid %}";
+                    var $data_table = $("#assets_list_table").DataTable();
+                    options.status = 1;
+                    options.col = {
+                        title:'确定安装服务',
+                        icon: "warning",
+                        dangerMode: true,
+                        buttons: ["先不安装了", "安装"]
+                    };
+                    softSwal($this,options,$data_table);
+
+                })
+                .on('click','#soft-uninstall',function(){
+                    var options = {};
+                    var $this = $(this);
+                    options.url = "{% url 'server_soft' uid %}";
+                    var $data_table = $("#assets_list_table").DataTable();
+                    options.status = 4;
+                    options.col = {
+                        title:'确定卸载服务',
+                        icon: "warning",
+                        dangerMode: true,
+                        buttons: ["先不卸载了", "卸载"]
+                    };
+                    softSwal($this,options,$data_table);
+
+                })
+        ;
+    </script>
+{% endblock jscontent %}

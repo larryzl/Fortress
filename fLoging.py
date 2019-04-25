@@ -12,7 +12,7 @@ class fortressLogger():
 
     # logger.extra = extra_dict
     rf_handler = logging.handlers.TimedRotatingFileHandler('logs/fortress_%s.log'%log_time_tag, when='midnight', interval=1, backupCount=7, atTime=datetime.time(0, 0, 0, 0))
-    rf_handler.setFormatter(logging.Formatter("{\"time\":\"%(asctime)s\",\"level\":\"%(levelname)s\",\"client_ip\":\"%(ip)s\",\"sport\":\"%(sport)s\",\"dport\":\"%(dport)s\",\"ssh_tty\":\"%(ssh_tty)s\",\"user\":\"%(username)s\" \"detail\":\"%(message)s\"}"))
+    rf_handler.setFormatter(logging.Formatter("{\"time\":\"%(asctime)s\",\"level\":\"%(levelname)s\",\"client_ip\":\"%(client_ip)s\",\"sport\":\"%(sport)s\",\"dport\":\"%(dport)s\",\"ssh_tty\":\"%(ssh_tty)s\",\"user\":\"%(username)s\" \"detail\":\"%(message)s\"}"))
     extra_dict = {"client_ip": "IP", "username": "USERNAME",'sport':'sport','dport':'dport','ssh_tty':'ssh_tty'}
 
     init_logger.addHandler(rf_handler)
@@ -31,6 +31,10 @@ if __name__ == '__main__':
     # logger.error('error message')
     # logger.critical('critical message')
     l = fortressLogger.flogger()
-
-    l.extra = {"ip": "113.208.78.29", "username": "Petter"}
+    client_ip = '192.168.8.200'
+    import getpass
+    sport = 3333
+    dport = 2222
+    ssh_tty = 'pts/1'
+    l.extra = {"client_ip": client_ip, "username":getpass.getuser() ,'sport':sport,'dport':dport,'ssh_tty':ssh_tty}
     l.error('error')

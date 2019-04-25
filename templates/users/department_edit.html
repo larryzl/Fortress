@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block csscontent %}
+    {% include '_header_form.html' %}
+{% endblock csscontent %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="col-md-10">
+            <!-- Horizontal Form -->
+            <div class="card card-default">
+                <div class="card-header">
+                    <h3 class="card-title">{{ title.1 }}</h3>
+                </div>
+
+                <form class="form-horizontal" method="POST" >
+                    <div class="card-body">
+                        {% csrf_token %}
+                        <div class="form-group required">
+                            <div class="row">
+                                <label class="col-md-2 control-label">{{ form.name.label }}:</label>
+                                <div class="col-md-9">
+                                    {{ form.name }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <div class="row">
+                                <label class="col-md-2 control-label">{{ form.department_admin.label }}:</label>
+                                <div class="col-md-9">
+                                    {{ form.department_admin }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <div class="row">
+                                <label class="col-md-2 control-label">{{ form.desc_gid.label }}:</label>
+                                <div class="col-md-9">
+                                    {{ form.desc_gid }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <div class="row">
+                                <label class="col-md-2 control-label">{{ form.description.label }}:</label>
+                                <div class="col-md-9">
+                                    {{ form.description }}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="hr-line-dashed"></div>
+                        {% if uid %}
+                        <h6>主机信息</h6>
+
+                        <div class="form-group">
+                            <div class="row">
+
+                            <div class="col-sm-3 offset-2">
+                                <label for="hostNoSelect" > 未选主机</label>
+                                <select name="hostNoSelect" id="hostNoSelect" class="form-control m-b" size="12" multiple>
+                                    {% for host in host_no_select %}
+                                        <option value="{{ host.uuid }}">{{ host.name }} - {{ host.ip }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-sm-1 asset-selected">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-white" id="move_left"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+                                    <button type="button" class="btn btn-white" id="move_right"><i class="fa fa-chevron-left"></i> </button>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <label for="hostNoSelect" >已选主机</label>
+                                <select name="hostSelect" id="hostSelect" class="form-control m-b" size="12" multiple>
+                                    {% for host in host_select %}
+                                        <option value="{{ host.uuid }}">{{ host.name }} - {{ host.ip }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-1 offset-2">
+                                <p><b style="color: red">tips</b>:</p>
+                            </div>
+                            <div class="col-sm-4">
+                                <p>1. 只显示有权限的主机信息</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-info" onclick="on_submit()">提交</button>
+                        <button type="reset" class="btn btn-default float-right">重置</button>
+                    </div>
+                    <!-- /.card-footer -->
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+
+
+{% endblock %}
+
+{% block jscontent %}
+    {% include '_foot_form.html' %}
+    <script>
+        $(function(){
+            $("#move_left").click(function(){
+                assetSelect("hostNoSelect","hostSelect");
+            });
+            $('#hostNoSelect').dblclick(function () {
+                assetSelect("hostNoSelect","hostSelect");
+            });
+            $("#move_right").click(function(){
+                assetSelect("hostSelect","hostNoSelect");
+            });
+            $("#hostSelect").dblclick(function(){
+                assetSelect("hostSelect","hostNoSelect");
+            })
+        });
+        function on_submit(){
+        $("#hostSelect option").each(
+            function(){
+                $(this).prop('selected',true);
+            }
+        );
+        $("#hostNoSelect option").each(
+            function(){
+                $(this).prop('selected',true);
+            }
+        )
+    }
+    </script>
+{% endblock %}

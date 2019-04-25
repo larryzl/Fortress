@@ -1,0 +1,50 @@
+{% load staticfiles %}
+<script src="{% static 'jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap -->
+<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'js/adminlte.js' %}"></script>
+
+<!-- OPTIONAL SCRIPTS -->
+<script src="{% static 'js/demo.js' %}"></script>
+
+<!-- PAGE PLUGINS -->
+<!-- SparkLine -->
+<script src="{% static 'sparkline/jquery.sparkline.min.js' %}"></script>
+<!-- jVectorMap -->
+<script src="{% static 'jvectormap/jquery-jvectormap-1.2.2.min.js' %}"></script>
+<script src="{% static 'jvectormap/jquery-jvectormap-world-mill-en.js' %} "></script>
+<!-- SlimScroll 1.3.0 -->
+<script src="{% static 'slimScroll/jquery.slimscroll.min.js' %}"></script>
+<script src="{% static 'layui/layui.js' %}"></script>
+
+<!-- ChartJS 1.0.2-->
+{#<script src="{% static 'chartjs-old/Chart.min.js' %}"></script>#}
+<script src="{% static 'js/sweetalert.min.js' %}"></script>
+<script src="{% static 'toastr/toastr.min.js' %}"></script>
+<!-- PAGE SCRIPTS -->
+
+<script src="{% static 'js/fortress.js' %}"></script>
+
+<script>
+activeNav();
+
+$(document).ready(function(){
+{#    setAjaxCSRFToken();#}
+    $('textarea').attr('rows', 5);
+    if ($('.tooltip')[0]) {
+        $('.tooltip').tooltip();
+    }
+});
+</script>
+<script>
+layui.use('element', function(){
+  var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+
+  //监听导航点击
+  element.on('nav(demo)', function(elem){
+    //console.log(elem)
+    layer.msg(elem.text());
+  });
+});
+</script>

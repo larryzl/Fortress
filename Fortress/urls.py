@@ -14,8 +14,24 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include,re_path
+from .views import index
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
+    re_path(r'^$',index,name='index'),
+    # re_path(r'^error_page.html',error_auth,name='error_auth'),
+    # re_path(r'^test$',test_html),
+    re_path(r'^assets/',include('assets.urls')),
+    re_path(r'^users/',include('accounts.urls')),
+    # re_path(r'^files/',include('files.urls')),
+    # re_path(r'^jobs/',include('ansible_api.urls')),
+    re_path(r'^ajax/',include('ajax.urls')),
+    re_path(r'^auth/',include('authorize.urls')),
+    re_path(r'^soft/',include('soft.urls')),
+    re_path(r'^img/',include('mytest.urls'))
+]+  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# handler404 = 'page_not_found'

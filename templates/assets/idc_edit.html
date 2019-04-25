@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block csscontent %}
+    {% include '_header_form.html' %}
+{% endblock csscontent %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="col-md-10">
+            <!-- Horizontal Form -->
+            <div class="card card-default">
+                <div class="card-header">
+                    <h3 class="card-title">{{ title.1 }}</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form class="form-horizontal" method="POST" >
+                    <div class="card-body">
+                        {% csrf_token %}
+                        <h6>机房信息</h6>
+                        <div class="form-group required">
+                            <div class="row">
+                                <label class="col-md-2 control-label">{{ form.name.label }}:</label>
+                                <div class="col-md-9">
+                                    {{ form.name }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <div class="row">
+                                <label class="col-md-2 control-label">{{ form.type.label }}:</label>
+                                <div class="col-md-9">
+                                    {{ form.type }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <div class="row">
+                                <label class="col-md-2 control-label">{{ form.bandwidth.label }}:</label>
+                                <div class="col-md-9">
+                                    {{ form.bandwidth }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <div class="row">
+                                <label class="col-md-2 control-label">{{ form.address.label }}:</label>
+                                <div class="col-md-9">
+                                    {{ form.address }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+
+                        {% if uid %}
+                            <h6>主机信息</h6>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-3 offset-2">
+                                        <label>已选主机</label>
+                                        <select name="hostSelect" id="hostSelect" multiple disabled class="form-control">
+                                            {% for host in host_select %}
+                                            <option value="{{ host.uuid }}">{{ host.name }} - {{ host.ip }}</option>
+                                            {% endfor %}
+                                        </select>
+                                      </div>
+
+                                    <div class="col-md-1">
+                                        <div class="btn-group" style="margin-top: 60px;">
+                                            <button type="button" class="btn btn-white" id="move_right"><i class="fa fa-chevron-right"></i></button>
+                                            <button type="button" class="btn btn-white" id="move_left" ><i class="fa fa-chevron-left"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="">未选主机</label>
+                                        <select name="hostNoSelect" id="hostNoSelect" multiple disabled class="form-control">
+                                            {% for host in host_no_select %}
+                                            <option value="{{ host.uuid }}">{{ host.name }} - {{ host.ip }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="row">
+                                    <div class="col-sm-1 offset-2">
+                                        <p><b style="color: red">tips</b>:</p>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <p>1. 只显示有权限的主机信息</p>
+                                        <p>2. 修改主机机房请前往 <b style="color: red">主机管理</b> 中修改</p>
+                                    </div>
+                                </div>
+
+
+                            <div class="hr-line-dashed"></div>
+                        {% endif %}
+                        <h6>联系信息</h6>
+                        <div class="form-group required">
+                            <div class="row">
+                                <label class="col-md-2 control-label">{{ form.contack_name.label }}:</label>
+                                <div class="col-md-9">
+                                    {{ form.contack_name }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group required">
+                            <div class="row">
+                                <label class="col-md-2 control-label">{{ form.contack_phone.label }}:</label>
+                                <div class="col-md-9">
+                                    {{ form.contack_phone }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <div class="row">
+                                <label class="col-md-2 control-label">{{ form.contack_mail.label }}:</label>
+                                <div class="col-md-9">
+                                    {{ form.contack_mail }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <div class="row">
+                                <label class="col-md-2 control-label">{{ form.contack_qq.label }}:</label>
+                                <div class="col-md-9">
+                                    {{ form.contack_qq }}
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-info">提交</button>
+                        <button type="reset" class="btn btn-default float-right">重置</button>
+                    </div>
+                    <!-- /.card-footer -->
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+
+
+{% endblock %}
+
+{% block jscontent %}
+    {% include '_foot_form.html' %}
+    <script>
+{#        $(function(){#}
+{#            $("#move_left").click(function(){#}
+{#                assetSelect("hostNoSelect","hostSelect");#}
+{#            });#}
+{#            $('#hostNoSelect').dblclick(function () {#}
+{#                assetSelect("hostNoSelect","hostSelect");#}
+{#            });#}
+{#            $("#move_right").click(function(){#}
+{#                assetSelect("hostSelect","hostNoSelect");#}
+{#            });#}
+{#            $("#hostSelect").dblclick(function(){#}
+{#                assetSelect("hostSelect","hostNoSelect");#}
+{#            })#}
+{#        });#}
+    </script>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% load staticfiles %}
+
+{% block csscontent %}
+    {% include '_header_form.html' %}
+    <link rel="stylesheet" href="{% static 'css/fortress.css' %}">
+{% endblock csscontent %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <!-- Horizontal Form -->
+            <div class="card card-default">
+                <div class="card-header">
+                    <h3 class="card-title">{{ title.1 }}</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+
+                <form enctype="multipart/form-data" class="form-horizontal" method="POST" >
+                    <div class="card-body">
+                    {% csrf_token %}
+
+                        <h6>基本信息</h6>
+                        <div class="form-group required">
+                            <div class="row">
+                                <label class="col-md-2 control-label">{{ form.name.label }}:</label>
+                                <div class="col-md-9">
+                                    {{ form.name }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <div class="row">
+                                <label class="col-md-2 control-label">{{ form.version.label }}:</label>
+                                <div class="col-md-9">
+                                    {{ form.version }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <div class="row">
+                                <label class="col-md-2 control-label">{{ form.soft_icon.label }}:</label>
+                                <div class="col-md-9">
+                                    {{ form.soft_icon }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <div class="row">
+                                <label class="col-md-2 control-label">{{ form.describe.label }}:</label>
+                                <div class="col-md-9">
+                                    {{ form.describe }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-info">提交</button>
+                        <button type="reset" class="btn btn-default float-right">重置</button>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+{% endblock %}
+
+{% block jscontent %}
+    {% include '_foot_form.html' %}
+    <script>
+        $('.select2').select2()
+    </script>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block csscontent %}
+    <link rel="stylesheet" href="{% static 'datatables/dataTables.bootstrap4.min.css' %}">
+{% endblock %}
+{% block content %}
+
+    <div class="card">
+
+        <div class="card-header">
+            <h3 class="card-title">标签详细列表</h3>
+        </div>
+        <div class="card-body">
+            <table id="assets_list_table" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>简介</th>
+                    <th>主机数量</th>
+                    <th>创建时间</th>
+                    <th>管理</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for l in labels %}
+                    <tr>
+                    <td>{{ l.name }}</td>
+                    <td>{{ l.remark }}</td>
+                    <td><span class="badge bg-info">{{ l.server_set.all.count | default:"0" }}</span></td>
+                    <td>{{ l.create_time }}</td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <a href="{% url 'label_edit' l.uuid %}" class="btn btn-sm btn-info">编辑</a>
+                            <button  class="btn btn-danger" id="asset_del" data-uid="{{ l.uuid }}" >删除</button>
+                        </div>
+                    </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-6 card-table-btn">
+                    <button type="button" class="btn-sm btn-success" id="add-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">添加</font></font></button>
+                    <button type="button" class="btn-danger btn-sm"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">删除</font></font></button>
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}
+
+{% block jscontent %}
+    {% include '_foot_table.html' %}
+
+    <script>
+        $(function(){
+            $("#add-label").click(function(){
+                window.location.href="{% url 'label_add' %}"
+            })
+        });
+        function initTable(){
+            var options = {
+                ele : $("#assets_list_table"),
+                pageLength: 10,
+                columns : [
+                    {data: 'idc_name'},
+                    {data: 'idc_type'},
+                    {data: 'idc_server_total'},
+                    {data: 'idc_bandwidth'},
+                    {data: 'idc_uuid',orderable: false}
+                ]
+            };
+            return cmdb.initDataTable(options);
+        }
+
+        $(document).ready( function () {
+                    initTable();
+                })
+                .on('click','.asset_del',function(){
+                    //console.log('this step1');
+                    var $this = $(this);
+                    var $data_table = $("#assets_list_tale").DataTable();
+                    var name = $(this).closest("tr").children().first().html();
+                    var uid = $this.data('uid');
+                    var the_url = "{% url 'idc_del' %}?id=" + uid;
+                    objectDelete($this, name, the_url);
+                    setTimeout( function () {
+                        $data_table.ajax.reload();
+                        console.log('step 4')
+                    }, 1000);
+
+
+                })
+        ;
+    </script>
+
+{% endblock %}

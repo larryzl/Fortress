@@ -1,0 +1,58 @@
+.card-table-btn{
+    margin:10px 5px 15px 26px;
+}
+.server-circle{
+    background-color: white;
+}
+.cicle{
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
+
+}
+
+.control-label{
+    padding-top: 7px;
+    margin-bottom: 0;
+    text-align: right;
+}
+
+.ibox-content{
+    background-color: #fff;
+    color: inherit;
+    padding: 15px 20px 20px;
+    border-color: #e7eaec;
+    -webkit-border-image: none;
+    -o-border-image: none;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 1px 0;
+}
+.hr-line-dashed{
+    border-top: 1px dashed #e7eaec;
+    color: #ffffff;
+    background-color: #ffffff;
+    height: 1px;
+    margin: 20px 0;
+}
+
+.btn-app-lg{
+    border-radius: 3px;
+    position: relative;
+    padding: 15px 5px;
+    margin: 0 0 10px 10px;
+    min-width: 160px;
+    height: 80px;
+    text-align: center;
+    color: #666;
+    border: 1px solid #ddd;
+    background-color: #f4f4f4;
+    font-size: 12px;
+}
+
+.asset-selected{
+    text-align: center;
+    align-items: center;
+    display: flex;
+}
